@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: gray;
+}
+
+#timer {
+    margin-left: 400px;
+    margin-top: 50px;
+}
+.btn {
+    margin-top: 15px;
+    margin-left: 335px;
+}
+
+#stop {
+    padding: 8px;
+}
+#start {
+    padding: 8px;
+}
+
+#reset {
+    padding: 8px;
+}
+#box {
+    width: 150px;
+    height: 150px;
+    margin-top: 50px;
+    margin-left: 335px;
+    border: 3px solid black;
+}
+
+.active {
+    background-color: red;
+}
