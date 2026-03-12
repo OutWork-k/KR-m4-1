@@ -67,42 +67,54 @@ box.addEventListener("click", () => {
     box.classList.toggle("active");
 });
 
-// Массив пользователей
-const users = [
-  {
-    login: "admin",
-    role: "Администратор",
-    email: "admin@gmail.com",
-    image: "" // можно вставить ссылку на аватар
-  },
-  {
-    login: "user",
-    role: "Пользователь",
-    email: "user@gmail.com",
-    image: ""
-  }
-];
+const request = new XMLHttpRequest
+request.open('GET','./two.json')
+request.setRequestHeader('Content-Type', 'application/json')
+request.send()
+request.onload = () => {
+    const response = JSON.parse(request.response)
+    console.log(response);
+
+}
 
 const input = document.querySelector("#loginInput");
 const button = document.querySelector("#checkBtn");
 const userCard = document.querySelector("#userCard");
 const message = document.querySelector("#message");
 
+let users = [];
+fetch("./users.json")
+  .then(response => response.json())
+  .then(data => {
+    users = data;
+  })
+  .catch(error => {
+    console.error("Ошибка при загрузке JSON:", error);
+  });
 
 button.addEventListener("click", () => {
     const login = input.value.trim();
-    const user = users.find(u => u.login === login);
-    if (user) {
-        message.textContent = "";
-        userCard.innerHTML = `
-            <div style="border:1px solid #000; padding:10px; width:200px; margin-top:10px;">
-                <h3>${user.login}</h3>
-                <p>Роль: ${user.role}</p>
-                <p>Email: ${user.email}</p>
-            </div>
-        `;
-    } else {
-        userCard.innerHTML = "";
-        message.textContent = "Пользователь не найден";
-    }
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "users.json", true);
+    xhr.onload = () => {
+        const users = JSON.parse(xhr.responseText);
+        const user = users.find(u => u.login === login);
+
+        if (user) {
+            message.textContent = "";
+            userCard.innerHTML = `
+                <div style="border:1px solid #000; padding:10px; width:200px; margin-top:10px;">
+                    <h3>${user.login}</h3>
+                    <p>Роль: ${user.role}</p>
+                    <p>Email: ${user.email}</p>
+                </div>
+            `;
+        } else {
+            userCard.innerHTML = "";
+            message.textContent = "Пользователь не найден";
+        }
+    };
+    xhr.send();
 });
+// вот это задание не возьможно сделать 
